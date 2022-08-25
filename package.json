@@ -1,0 +1,34 @@
+{
+  "name": "springboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "springboard",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.8",
+    "gatsby": "^4.21.1",
+    "gatsby-plugin-google-analytics": "^4.21.0",
+    "gatsby-plugin-image": "^2.21.0",
+    "gatsby-plugin-postcss": "^5.21.0",
+    "gatsby-plugin-sharp": "^4.21.0",
+    "gatsby-plugin-sitemap": "^5.21.0",
+    "gatsby-source-filesystem": "^4.21.1",
+    "gatsby-source-wordpress": "^6.21.1",
+    "gatsby-transformer-sharp": "^4.21.0",
+    "postcss": "^8.4.16",
+    "postcss-import": "^14.1.0",
+    "postcss-nested": "^5.0.6",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "tailwindcss": "^3.1.8"
+  }
+}
