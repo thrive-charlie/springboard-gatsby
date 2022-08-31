@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Contains any WYSIWYG styling */
+.content {
+    h2 {
+        @apply font-serif font-bold mb-3 text-3xl;
+    }
+
+    h3 {
+        @apply font-serif text-2xl font-bold mb-4;
+    }
+
+    h4, h5, h6 {
+        @apply font-serif text-xl font-bold mb-4;
+    }
+
+    p {
+        @apply mb-4 text-base;
+        &:last-child {
+            @apply mb-0;
+        }
+    }
+
+    p a {
+        text-decoration: underline;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    ul {
+        list-style: disc;
+        padding-left: 1.25rem;
+    }
+
+    ul li {
+        margin-bottom: 1rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    sup {
+        font-size: 55%;
+        top: -0.75rem;
+    }
+
+    &--white {
+        @apply text-white;
+
+        p {
+            @apply text-white;
+        }
+    }
+
+    @media (max-width: theme('screens.md')) {
+        h2 {
+            font-size: 1.75rem;
+            @apply leading-tight mb-5;
+        }
+
+        h3, h4, h5, h6 {
+            @apply leading-tight;
+        }
+    }
+
+}

@@ -2,6 +2,8 @@ exports.createPages = async ({actions, graphql, reporter}) => {
     // Run Async functions that fetch data from WP and import into Gatsby.
     await createWpPages(actions, graphql, reporter);
     await createWpPostPages(actions, graphql, reporter);
+    await createWpPostCategories(actions, graphql, reporter);
+    await createWpListingPages(actions, graphql, reporter);
 };
 
 // Create Pages Functions
@@ -103,7 +105,7 @@ const createWpPages = async (actions, graphql, reporter) => {
     const {allWpPage} = pageResult.data;
 
     // Define the page templates to use
-    const pageTemplate = require.resolve(`./src/templates/page.js`);
+    const pageTemplate = require.resolve(`./src/templates/Page.js`);
 
     if (allWpPage.nodes.length) {
         allWpPage.nodes.map((page) => {
@@ -124,7 +126,7 @@ const createWpPages = async (actions, graphql, reporter) => {
  * @param report
  * @returns {Promise<void>}
  */
-const createWpPostPages = async (actions, graphql, report) => {
+const createWpPostPages = async (actions, graphql, reporter) => {
     const postResult = await graphql(`
         {
             allWpPost {
@@ -134,17 +136,27 @@ const createWpPostPages = async (actions, graphql, report) => {
                     content
                     date
                     uri
-                    seo {
-                    canonical
-                    title
-                    metaDesc
-                    metaKeywords
-                    twitterTitle
-                    twitterImage {
-                      mediaItemUrl
-                      altText
+                    featuredImage {
+                        node {
+                            altText
+                            localFile {
+                                childImageSharp {
+                                    gatsbyImageData(formats: [WEBP, AUTO], width: 2000, height: 400)
+                                }
+                            }
+                        }
                     }
-                  }
+                    seo {
+                        canonical
+                        title
+                        metaDesc
+                        metaKeywords
+                        twitterTitle
+                        twitterImage {
+                            mediaItemUrl
+                            altText
+                        }
+                    }
                 }
             }
         }
@@ -157,7 +169,7 @@ const createWpPostPages = async (actions, graphql, report) => {
     const {allWpPost} = postResult.data;
 
     // Define the work template to use
-    const postTemplate = require.resolve('./src/templates/post.js');
+    const postTemplate = require.resolve('./src/templates/Post.js');
 
     if (allWpPost.nodes.length) {
         allWpPost.nodes.map((page) => {
@@ -169,3 +181,149 @@ const createWpPostPages = async (actions, graphql, report) => {
         });
     }
 };
+
+/**
+ * Creates category pages as Gatsby Pages
+ *
+ * @param actions
+ * @param graphql
+ * @param reporter
+ * @returns {Promise<void>}
+ */
+const createWpPostCategories = async (actions, graphql, reporter) => {
+
+    const postCategories = await graphql(`
+        {
+          allWpCategory {
+            nodes {
+              id
+              name
+              slug
+              posts {
+                nodes {
+                  title
+                  dateGmt
+                  excerpt
+                  content
+                  featuredImage {
+                    node {
+                      altText
+                      localFile {
+                        childImageSharp {
+                          gatsbyImageData(formats: [AVIF, WEBP, AUTO], width: 800, height: 500)
+                        }
+                      }
+                    }
+                  }
+                  uri
+                }
+              }
+            }
+          }
+        }
+    `);
+
+    if (postCategories.errors) {
+        reporter.error('There was an error fetching posts', postCategories.errors);
+    }
+
+    const {allWpCategory} = postCategories.data;
+
+    // Define the work template to use
+    const postTemplate = require.resolve('./src/templates/PostCategory.js');
+
+    if (allWpCategory.nodes.length) {
+        allWpCategory.nodes.map((category) => {
+            actions.createPage({
+                path: `/blog/${category.slug}`,
+                component: postTemplate,
+                context: category,
+            });
+        });
+    }
+
+};
+
+
+const createWpListingPages = async (actions, graphql, reporter) => {
+    const listingsResult = await graphql(`
+        {
+          allWpListing {
+            nodes {
+              title
+              slug
+              seo {
+                canonical
+                title
+                metaDesc
+                metaKeywords
+              }
+              featuredImage {
+                node {
+                  localFile {
+                    childImageSharp {
+                      gatsbyImageData(formats: [AVIF, WEBP, AUTO])
+                    }
+                  }
+                }
+              }
+              acfListing {
+                relatedListings {
+                  __typename
+                  ... on WpListing {
+                    id
+                    title
+                    slug
+                    featuredImage {
+                      node {
+                        altText
+                        localFile {
+                          childImageSharp {
+                            gatsbyImageData
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                keyPoints {
+                  point
+                }
+                gallery {
+                  altText
+                  localFile {
+                    childImageSharp {
+                        gatsbyImageData(formats: [AVIF, WEBP, AUTO], width: 1200, height: 800)
+                    }
+                  }
+                }
+                description
+                brochure {
+                  filename
+                  publicUrl
+                }
+              }
+            }
+          }
+        }
+    `);
+
+    if (listingsResult.errors) {
+        reporter.error('There was an error fetching listings', listingsResult.errors);
+    }
+
+    const {allWpListing} = listingsResult.data;
+
+    // Define the work template to use
+    const template = require.resolve('./src/templates/Listing.js');
+
+    if (allWpListing.nodes.length) {
+        allWpListing.nodes.map((page) => {
+            actions.createPage({
+                path: `/listings/${page.slug}`,
+                component: template,
+                context: page,
+            });
+        });
+    }
+}

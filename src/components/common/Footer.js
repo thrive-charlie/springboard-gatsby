@@ -18,7 +18,7 @@ const Footer = () => {
 
     return (
         <footer className="bg-slate-100 px-12 py-12 mt-10">
-            Page Footer - <span>{data.wp.acfOptionsThemeSettings.globals.footerTagline}</span>
+            <p className="mb-4">Page Footer - <span>{data.wp.acfOptionsThemeSettings.globals.footerTagline}</span></p>
             <FooterNav/>
         </footer>
     );
