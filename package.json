@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.8",
+    "axios": "^0.27.2",
     "gatsby": "^4.21.1",
     "gatsby-plugin-google-analytics": "^4.21.0",
     "gatsby-plugin-image": "^2.21.0",

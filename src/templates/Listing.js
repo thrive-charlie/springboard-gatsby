@@ -12,9 +12,10 @@ const Listing = ({pageContext: data}) => {
                 <header className="relative mb-8">
                     <GatsbyImage alt={data.featuredImage.node.altText}
                                  image={data.featuredImage.node.localFile.childImageSharp.gatsbyImageData}/>
-                    <div className="absolute top-0 left-0 w-full h-full p-8 flex items-center bg-black bg-opacity-50">
-                        <h1 className="text-6xl text-white">{data.title}</h1>
-                    </div>
+                    sudo mv composer.phar /usr/local/bin/composer <div
+                    className="absolute top-0 left-0 w-full h-full p-8 flex items-center bg-black bg-opacity-50">
+                    <h1 className="text-6xl text-white">{data.title}</h1>
+                </div>
                 </header>
                 <section>
 

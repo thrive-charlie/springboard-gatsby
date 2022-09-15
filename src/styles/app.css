@@ -68,3 +68,14 @@
     }
 
 }
+
+.form-item {
+    margin-bottom: 0.5rem;
+    label {
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    input, select, textarea {
+        border: 1px solid grey;
+    }
+}

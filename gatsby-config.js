@@ -1,3 +1,7 @@
+require("dotenv").config({
+    path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
     siteMetadata: {
         title: `Springboard`,
@@ -15,7 +19,7 @@ module.exports = {
         {
             resolve: 'gatsby-source-wordpress',
             options: {
-                "url": "http://gatsby-wp.local/graphql"
+                "url": process.env.WP_GRAPHQL
             }
         },
         {
